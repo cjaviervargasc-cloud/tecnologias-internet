@@ -2,66 +2,48 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 // INTERFAZ DEL PRODUCTO
-interface Producto {
+
+export interface Producto {
   nombre: string;
   precio: number;
   disponible: boolean;
 }
 
-// COMPONENTE HIJO
+// COMPONENTE HIJO: TARJETA DE PRODUCTO
+
 @Component({
   selector: 'app-tarjeta-producto',
   standalone: true,
   template: `
-    <div class="producto">
+    <div class="producto-accion">
 
-      <h3>{{ producto.nombre }}</h3>
+      <button
+        class="boton-consulta"
+        (click)="solicitarInformacion()">
 
-      <p>Precio: Bs. {{ producto.precio }}</p>
+        Solicitar información sobre {{ producto.nombre }}
 
-      @if (producto.disponible) {
-        <p>Producto disponible</p>
-      } @else {
-        <p>Producto agotado</p>
-      }
-
-      <button (click)="solicitarInformacion()">
-        Solicitar información
       </button>
 
     </div>
   `,
   styles: [`
-    .producto {
-      background: #F5F0E6;
-      border: 1px solid #DFCCB4;
-      border-radius: 14px;
-      padding: 25px;
-      margin-top: 15px;
+    .producto-accion {
+      margin-top: 20px;
     }
 
-    .producto h3 {
-      color: #493323;
-      font-family: Georgia, serif;
-      font-size: 23px;
-    }
-
-    .producto p {
-      color: #403A34;
-    }
-
-    .producto button {
+    .boton-consulta {
       background: #795333;
       color: white;
       border: none;
-      padding: 12px 22px;
+      padding: 13px 22px;
       border-radius: 8px;
       cursor: pointer;
       font-size: 15px;
       transition: background 0.3s;
     }
 
-    .producto button:hover {
+    .boton-consulta:hover {
       background: #493323;
     }
   `]
@@ -69,18 +51,18 @@ interface Producto {
 
 export class TarjetaProductoComponent {
 
-
   @Input() producto!: Producto;
-
 
   @Output() consultar = new EventEmitter<Producto>();
 
+  // Boton de informacion del producto
   solicitarInformacion(): void {
     this.consultar.emit(this.producto);
   }
+
 }
 
-
+// COMPONENTE: TIENDA
 
 @Component({
   selector: 'app-root',
@@ -89,14 +71,17 @@ export class TarjetaProductoComponent {
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
+
 export class App {
 
 
   nombreTienda: string = 'Maderas & Diseño Vargitas';
-  encargado: string = 'Tu nombre';
-  numeroSucursal: number = 1;
-  tiendaAbierta: boolean = true;
 
+  encargado: string = 'Carlos Javier Vargas Claros';
+
+  numeroSucursal: number = 1;
+
+  tiendaAbierta: boolean = true;
 
   categorias: string[] = [
     'Muebles a medida',
@@ -104,19 +89,25 @@ export class App {
     'Estanterías y decoración'
   ];
 
-
-  producto: Producto = {
+  /*producto: Producto = {
     nombre: 'Mesa de comedor de madera',
     precio: 3200,
     disponible: true
+  };*/
+
+  producto: Producto = {
+    nombre: 'Puerta de madera maciza',
+    precio: 4500,
+    disponible: false
   };
 
   mensajeConsulta: string = '';
 
-
   recibirConsulta(producto: Producto): void {
+
     this.mensajeConsulta =
       'Has solicitado información sobre: ' + producto.nombre;
+
   }
 
 }

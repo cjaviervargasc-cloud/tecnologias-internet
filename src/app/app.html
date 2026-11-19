@@ -1,46 +1,95 @@
+
 <div class="contenedor">
 
-  <h1>{{ nombreTienda }}</h1>
+  <header>
+    <h1>{{ nombreTienda }}</h1>
 
-  <h2>Información de la carpintería</h2>
+    <p class="subtitulo">
+      Muebles y trabajos de carpintería a medida
+    </p>
+  </header>
 
-  <p>
-    <strong>Encargado:</strong> {{ encargado }}
-  </p>
+  <section>
 
-  <p>
-    <strong>Número de sucursal:</strong> {{ numeroSucursal }}
-  </p>
+    <h2>Información de la carpintería</h2>
 
-  @if (tiendaAbierta) {
-    <p>Tienda abierta</p>
-  } @else {
-    <p>Tienda cerrada</p>
-  }
+    <p>
+      <strong>Encargado:</strong> {{ encargado }}
+    </p>
 
-  <hr>
+    <p>
+      <strong>Número de sucursal:</strong> {{ numeroSucursal }}
+    </p>
 
-  <h2>Nuestras categorías</h2>
-
-  <ul>
-    @for (categoria of categorias; track categoria) {
-      <li>{{ categoria }}</li>
+    @if (tiendaAbierta) {
+      <p class="estado abierta">
+        Tienda abierta
+      </p>
+    } @else {
+      <p class="estado cerrada">
+        Tienda cerrada
+      </p>
     }
-  </ul>
+
+  </section>
 
   <hr>
 
-  <h2>Nuestro producto destacado</h2>
+  <section>
 
-  <!-- Comunicación padre a hijo mediante Input -->
-  <app-tarjeta-producto
-    [producto]="producto"
-    (consultar)="recibirConsulta($event)">
-  </app-tarjeta-producto>
+    <h2>Nuestras categorías</h2>
 
-  <!-- Mensaje recibido mediante Output -->
-  @if (mensajeConsulta) {
-    <p>{{ mensajeConsulta }}</p>
-  }
+    <ul class="categorias">
+
+      @for (categoria of categorias; track categoria) {
+        <li>{{ categoria }}</li>
+      }
+
+    </ul>
+
+  </section>
+
+  <hr>
+
+  <section>
+
+    <h2>Nuestro producto destacado</h2>
+
+    <div class="producto">
+
+      <h3>{{ producto.nombre }}</h3>
+
+      <p class="precio">
+        Precio: Bs. {{ producto.precio }}
+      </p>
+
+      @if (producto.disponible) {
+        <p class="disponible">
+          Producto disponible
+        </p>
+      } @else {
+        <p class="agotado">
+          Producto agotado
+        </p>
+      }
+
+    </div>
+
+    <app-tarjeta-producto
+      [producto]="producto"
+      (consultar)="recibirConsulta($event)">
+    </app-tarjeta-producto>
+
+    @if (mensajeConsulta) {
+      <p class="mensaje">
+        {{ mensajeConsulta }}
+      </p>
+    }
+
+  </section>
+
+  <footer>
+    <p>Maderas & Diseño - Calidad y trabajo en madera</p>
+  </footer>
 
 </div>
