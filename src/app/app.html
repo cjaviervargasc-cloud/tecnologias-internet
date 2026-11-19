@@ -1,0 +1,46 @@
+<div class="contenedor">
+
+  <h1>{{ nombreTienda }}</h1>
+
+  <h2>Información de la carpintería</h2>
+
+  <p>
+    <strong>Encargado:</strong> {{ encargado }}
+  </p>
+
+  <p>
+    <strong>Número de sucursal:</strong> {{ numeroSucursal }}
+  </p>
+
+  @if (tiendaAbierta) {
+    <p>Tienda abierta</p>
+  } @else {
+    <p>Tienda cerrada</p>
+  }
+
+  <hr>
+
+  <h2>Nuestras categorías</h2>
+
+  <ul>
+    @for (categoria of categorias; track categoria) {
+      <li>{{ categoria }}</li>
+    }
+  </ul>
+
+  <hr>
+
+  <h2>Nuestro producto destacado</h2>
+
+  <!-- Comunicación padre a hijo mediante Input -->
+  <app-tarjeta-producto
+    [producto]="producto"
+    (consultar)="recibirConsulta($event)">
+  </app-tarjeta-producto>
+
+  <!-- Mensaje recibido mediante Output -->
+  @if (mensajeConsulta) {
+    <p>{{ mensajeConsulta }}</p>
+  }
+
+</div>
